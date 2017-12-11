@@ -12,8 +12,18 @@ import java.net.Socket;
  * 
 **/
 public class MainServer {
+	
+	
+	
 	public static void main(String[] args) throws Exception	{
-	      System.out.print("running..");
+		
+
+		  Robot robot = new Robot();
+		  System.out.println("Robot's online");
+		  
+		  try{
+		
+	      System.out.print("Server running..");
 		  int [] values = new int[5];							//For storing the finger-values
 		  DatagramSocket serverSocket = new DatagramSocket(9876);
 		  byte[] recData = new byte[20];
@@ -24,12 +34,14 @@ public class MainServer {
               System.out.println("RECEIVED: " + sentence);
               
               values = decodeReceivedString(sentence);
+              
+              robot.readinput(values);
               /*
               for(int i = 0; i<5; i++){
             	  System.out.println("testprint..");
             	  System.out.println(i +": "+ values[i]);
               }
-              */
+              
               String gesture ="";
 	   			switch(getGesture(values)){
    		   		case 1: gesture = "Left";
@@ -42,11 +54,19 @@ public class MainServer {
    		   		break;
    		   		default: gesture = "no gesture detected";
    		   }
-	   			System.out.println("gesture: " + gesture);
+	   			System.out.println("gesture: " + gesture);*/
+              
 		  }
 		  
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		} finally {
+			robot.close();
+		}
 		  
-		 }
+		  
+	}
 	
 	/**
 	 * For converting received string to an array
